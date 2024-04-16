@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.jetbrainsKotlinKapt)
+    alias(libs.plugins.hiltAndroid)
 }
 
 android {
@@ -40,12 +42,15 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+    hilt {
+        enableAggregatingTask = false
     }
 }
 
@@ -67,4 +72,14 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Dependencia de Retrofit
+    implementation(libs.squareup.retrofit)
+    implementation(libs.squareup.gson)
+    implementation(libs.google.gson)
+
+    // Dependencia de Hilt
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 }

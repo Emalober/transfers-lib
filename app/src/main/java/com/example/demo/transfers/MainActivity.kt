@@ -7,13 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.demo.transfers.ui.theme.TransfersTheme
-import com.example.transfers.presentation.screens.ContactsListScreen
+import com.example.transfers.presentation.contacts.ContactsListScreen
+import com.example.transfers.presentation.contacts.ContactsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val viewModel = hiltViewModel<ContactsViewModel>()
+
             TransfersTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -22,7 +28,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     ContactsListScreen(
                         onBackPress = {},
-                        onSelectContact= {}
+                        onSelectContact= {},
+                        viewModel = viewModel
                     )
                 }
             }

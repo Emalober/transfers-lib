@@ -1,4 +1,4 @@
-package com.example.transfers.presentation.screens
+package com.example.transfers.presentation.contacts
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -12,12 +12,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.transfers.domain.model.Contact
 import com.example.transfers.presentation.components.ContactCard
 
@@ -43,11 +47,13 @@ private val contactList = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsListScreen(
+    modifier: Modifier = Modifier,
     onBackPress: () -> Unit,
     onSelectContact: (Contact) -> Unit,
-    modifier: Modifier = Modifier
+    viewModel: ContactsViewModel
 ) {
-
+    val uiState by viewModel.uiState.collectAsState()
+    val contacts = viewModel.contacts.observeAsState(emptyList())
     val textState = remember { mutableStateOf(TextFieldValue("")) }
 
     Column(
@@ -69,7 +75,7 @@ fun ContactsListScreen(
         ContactsListContent(
             modifier = modifier,
             filterState = textState,
-            contacts = contactList,
+            contacts = contacts.value,
             onSelectContact = onSelectContact
         )
     }
