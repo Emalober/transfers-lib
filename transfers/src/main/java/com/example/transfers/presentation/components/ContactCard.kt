@@ -1,22 +1,29 @@
 package com.example.transfers.presentation.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import com.example.transfers.domain.model.Contact
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
+import com.example.transfers.R
 
 @Composable
 fun ContactCard(
     modifier: Modifier = Modifier,
-    contact: Contact
+    contact: Contact,
+    showAvatar: Boolean = true
 ) {
     Card(
         modifier = modifier
@@ -29,7 +36,8 @@ fun ContactCard(
         ) {
             ContactIcon(
                 modifier = Modifier.size(48.dp, 48.dp),
-                initials = "${contact.firstName[0]}${contact.lastName[0]}"
+                initials = "${contact.firstName[0]}${contact.lastName[0]}",
+                imageUrl = if (showAvatar) contact.imageUrl else null
             )
             Column(
                 modifier = Modifier.padding(12.dp),
@@ -49,7 +57,7 @@ fun ContactCard(
 
 @Preview("default")
 @Composable
-private fun GcbContactCardPreview() {
+private fun ContactCardPreview() {
         Column() {
             ContactCard(
                 modifier = Modifier.fillMaxWidth(),
@@ -74,7 +82,8 @@ private fun GcbContactCardPreview() {
 @Composable
 private fun ContactIcon(
     modifier: Modifier = Modifier,
-    initials: String
+    initials: String,
+    imageUrl: String? = null
 ) {
     Box(
         modifier = modifier
@@ -84,11 +93,30 @@ private fun ContactIcon(
             ),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = initials,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            style = MaterialTheme.typography.titleSmall,
-            modifier = Modifier.padding(1.dp)
-        )
+        if (imageUrl.isNullOrEmpty()) {
+            Text(
+                text = initials,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(1.dp)
+            )
+        } else {
+            Image(
+                painter = rememberImagePainter(
+                    data = imageUrl,
+                    builder = {
+                        crossfade(true)
+                        placeholder(drawableResId = R.drawable.avartar)
+                    }
+                ),
+                contentDescription = "avatar",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .aspectRatio(1.0f)
+                    .size(56.dp)
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(10.dp))
+            )
+        }
     }
 }

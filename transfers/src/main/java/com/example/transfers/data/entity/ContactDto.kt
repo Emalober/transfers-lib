@@ -6,11 +6,13 @@ import com.google.gson.annotations.SerializedName
 data class ContactDto(
     @SerializedName("firstName") val firstName: String,
     @SerializedName("lastName") val lastName: String,
-    @SerializedName("isClient") val isClient: Boolean = false
+    @SerializedName("isClient") val isClient: Boolean = false,
+    val imageUrl: String? = null
 )
 
 fun ContactDto.toDomain() = Contact(
     firstName = firstName,
     lastName = lastName,
-    isClient = isClient
+    isClient = isClient,
+    imageUrl = imageUrl
 )

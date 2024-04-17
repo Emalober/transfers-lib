@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.hiltAndroid)
 }
 
-project.ext.set("libraryVersion", "0.1.0")
+project.ext.set("libraryVersion", "0.1.0-NN-11111-SNAPSHOT")
 
 android {
     namespace = "com.example.transfers"
@@ -16,6 +16,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("Boolean", "USE_AVATAR", "true")
     }
 
     buildTypes {
@@ -36,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
@@ -75,4 +78,7 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.2.2")
 }
