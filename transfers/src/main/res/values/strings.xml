@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contacts_title">Mis contactos</string>
+    <string name="contact_with_account">Contactos con Gcb</string>
+    <string name="contact_without_account">Invitar a usar Gcb</string>
+</resources>
